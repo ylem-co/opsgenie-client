@@ -7,12 +7,6 @@ import (
 	"net/http"
 )
 
-var cfg *Config
-
-type Config struct {
-	ApiKey string
-}
-
 type Opsgenie struct {
 	Client *resty.Client
 	ctx context.Context
@@ -70,16 +64,12 @@ func (o *Opsgenie) CreateAlert(request CreateAlertRequest) error {
 	return o.CreateAlertWithContext(o.ctx, request)
 }
 
-func CreateInstance(ctx context.Context) (*Opsgenie, error) {
+func CreateInstance(ctx context.Context, apiKey string) (*Opsgenie, error) {
 	return &Opsgenie{
 		Client: resty.New().
 			SetBaseURL("https://api.eu.opsgenie.com").
 			SetAuthScheme("GeniKey").
-			SetAuthToken(cfg.ApiKey),
+			SetAuthToken(apiKey),
 		ctx: ctx,
 	}, nil
-}
-
-func Initiate(config Config) {
-	cfg = &config
 }
