@@ -7,5 +7,5 @@ type ValidationError struct {
 }
 
 func (r *ValidationError) Error() string {
-	return fmt.Sprintf("opsgenie: data validation error %v", r.Err)
+	return fmt.Sprintf("opsgenie: data validation error: %v", r.Err)
 }
