@@ -68,7 +68,7 @@ func CreateInstance(ctx context.Context, apiKey string) (*Opsgenie, error) {
 	return &Opsgenie{
 		Client: resty.New().
 			SetBaseURL("https://api.eu.opsgenie.com").
-			SetAuthScheme("GeniKey").
+			SetAuthScheme("GenieKey").
 			SetAuthToken(apiKey),
 		ctx: ctx,
 	}, nil
