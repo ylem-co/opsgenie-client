@@ -21,12 +21,16 @@ type Opsgenie struct {
 func (o *Opsgenie) CreateAlertWithContext(ctx context.Context, request CreateAlertRequest) error {
 	const MessageMaxLength = 130
 	if len(request.Message) > MessageMaxLength {
-		return fmt.Errorf("opsgenie: length of a message may not exceed %d characters", MessageMaxLength)
+		return &ValidationError{
+			Err: fmt.Errorf("length of a message may not exceed %d characters", MessageMaxLength),
+		}
 	}
 
 	const DescriptionMaxLength = 15000
 	if len(request.Description) > DescriptionMaxLength {
-		return fmt.Errorf("opsgenie: length of a description may not exceed %d characters", DescriptionMaxLength)
+		return &ValidationError{
+			Err: fmt.Errorf("length of a description may not exceed %d characters", DescriptionMaxLength),
+		}
 	}
 
 	if _, ok := map[string]bool{
@@ -36,7 +40,9 @@ func (o *Opsgenie) CreateAlertWithContext(ctx context.Context, request CreateAle
 		"P4": true,
 		"P5": true,
 	}[request.Priority]; !ok {
-		return fmt.Errorf("opsgenie: a priority %s is not supported", request.Priority)
+		return &ValidationError{
+			Err: fmt.Errorf("a priority %s is not supported", request.Priority),
+		}
 	}
 
 	resp, err := o.Client.R().
