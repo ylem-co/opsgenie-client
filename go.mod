@@ -1,4 +1,4 @@
-module github.com/datamin-io/opsgenie-client
+module github.com/ylem-co/opsgenie-client
 
 go 1.21
 
